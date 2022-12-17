@@ -1,0 +1,45 @@
+.input {
+  border: 2px solid burlywood;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  border-radius: 5px;
+  color: burlywood;
+  font-weight: 600;
+}
+
+.input label {
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background-color: white;
+  padding: 0 5px;
+}
+
+.input input {
+  padding: 10px;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 17px;
+  color: burlywood;
+}
+
+.input input::placeholder {
+  color: burlywood;
+}
+
+.input input[type="submit"] {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transform: 0.2s;
+  font-weight: 600;
+}
+
+.input input[type="submit"]:hover {
+  background-color: burlywood;
+  color: white;
+}
+  
