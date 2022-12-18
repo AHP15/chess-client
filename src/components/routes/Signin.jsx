@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import useForm from "../../hooks/useForm";
+import Alert from "../utils/Alert";
 import FormLayout from "../utils/FormLayout";
 import Input from "../utils/input";
 import Logo from "../utils/Logo";
@@ -16,7 +17,7 @@ const SignIn = () => {
   } = useForm({email: '', password: ''}, url);
 
   if(error) {
-    alert(error);
+    console.log(error);
   }
 
   if (pending) {
@@ -62,6 +63,14 @@ const SignIn = () => {
         />
         <Link to="/signup" style={{ fontWeight: '600' }}>Create Account</Link>
       </FormLayout>
+
+      <i style={{ position: 'absolute', bottom: '10px' }}>Developed by 
+        <a style={{ display: 'inline-block', marginLeft: '5px' }} href="https://abdessittir-harkati.vercel.app/" target="_blank" rel="noreferrer">
+          Abdessittir Harkati
+        </a>
+      </i>
+
+      {error ? <Alert type="error" message={error} clear={()=>{}} /> : null}
     </div>
   );
 };

@@ -1,0 +1,51 @@
+.error,
+.waring,
+.success {
+  position: fixed;
+  left: 15px;
+  bottom: 15px;
+  padding: 10px 15px;
+  color: red;
+  border: 1px solid red;
+  background-color: rgba(255, 0, 0, 0.5);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding-right: 40px;
+  max-width: 400px;
+  animation: animate 0.5s alternate;
+}
+
+.waring {
+  color: orange;
+  border: 1px solid orange;
+  background-color: rgba(255, 166, 0, 0.5);
+}
+
+.success {
+  color: green;
+  border: 1px solid green;
+  background-color: rgba(0, 128, 0, 0.5);
+}
+
+@keyframes animate {
+  from {
+    bottom: -200px;
+  }
+
+  to {
+    bottom: 15px;
+  }
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 100%;
+}
