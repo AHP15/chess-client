@@ -16,7 +16,6 @@ const SignUp = () => {
     <div className="container">
       <div>
         <Logo />
-        <h1>SignUp</h1>
       </div>
       <FormLayout>
         <Input

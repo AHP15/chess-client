@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
   padding: 50px;
   border-radius: 5px;
   box-shadow: 1px 1px 20px rgba(222, 184, 135, 0.5);

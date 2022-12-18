@@ -1,4 +1,5 @@
-.input {
+.input,
+.invalid_input {
   border: 2px solid burlywood;
   width: 100%;
   max-width: 400px;
@@ -8,7 +9,12 @@
   font-weight: 600;
 }
 
-.input label {
+.invalid_input {
+  border-color: red;
+  transition: 0.3s;
+}
+
+label {
   position: absolute;
   top: -12px;
   left: 10px;
@@ -16,7 +22,11 @@
   padding: 0 5px;
 }
 
-.input input {
+.invalid_input label {
+  color: red;
+}
+
+input {
   padding: 10px;
   border: none;
   outline: none;
@@ -25,11 +35,11 @@
   color: burlywood;
 }
 
-.input input::placeholder {
+input::placeholder {
   color: burlywood;
 }
 
-.input input[type="submit"] {
+input[type="submit"] {
   background-color: transparent;
   border: none;
   outline: none;
@@ -38,8 +48,16 @@
   font-weight: 600;
 }
 
-.input input[type="submit"]:hover {
+input[type="submit"]:hover {
   background-color: burlywood;
   color: white;
+}
+
+.invalid {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  color: red;
+  font-size: 12px;
 }
   

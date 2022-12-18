@@ -1,10 +1,13 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import matrix from "../../gameLogic/board";
 import initialPieces from "../../gameLogic/initialPieces";
 import Square from "./Square";
 
+import styles from '../../styles/game/Board.module.css';
+
 const Board = ({player}) => {
   const [game, setGame] = useState({
+    player,
     pieces: initialPieces,
     possibleSquares: [],
     selectedPiece: null,
@@ -37,7 +40,7 @@ const Board = ({player}) => {
   })), []);
 
   return (
-    <div>
+    <div className={styles.board}>
       {
         matrix.map(row => row.map(square => (
           <Square

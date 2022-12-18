@@ -1,0 +1,13 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(8, 70px);
+  box-shadow: 1px 1px 5px black;
+  transition: 0.3s;
+  width: fit-content;
+}
+
+.square {
+  width: 70px;
+  height: 70px;
+  color: red;
+}
