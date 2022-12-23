@@ -1,13 +1,22 @@
 import { useCallback, useState } from 'react';
+import isEmail from 'validator/lib/isEmail';
 
 const useForm = (fields, endpoint) => {
   const [data, setData] = useState(fields);
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState(false);
-  const [invalid, setInvalid] = useState({
-    field: '',
-    message: '',
+  const [status, setStatus] = useState({
+    type: null,
+    message: null,
   });
+  const [invalid, setInvalid] = useState({
+    field: null,
+    message: null,
+  });
+
+  const clearStatus = useCallback(() => setStatus({
+    type: null,
+    message: null,
+  }), []);
 
   const handleChange = useCallback((e) => {
     const field = e.target.name;
@@ -26,6 +35,13 @@ const useForm = (fields, endpoint) => {
 
     // validate data
     for(let [key, value] of Object.entries(data)) {
+      if(value.trim() && key === 'email' && !isEmail(value)) {
+        return setInvalid({
+          field: key,
+          message: `Invalid ${key}!`,
+        });
+      }
+
       if(!value.trim()) {
         return setInvalid({
           field: key,
@@ -46,19 +62,39 @@ const useForm = (fields, endpoint) => {
       });
 
       const resData = await res.json();
-      console.log(resData);
       if(!resData.success) {
-        setError(resData.error);
+        setPending(false);
+        setStatus({
+          type: 'error',
+          message: resData.error,
+        });
+      } else {
+        setStatus({
+          type: 'success',
+          message: '',
+        });
         setPending(false);
       }
 
+      console.log(resData);
     } catch (err) {
-      setError(err.message);
+      setStatus({
+        type: 'error',
+        message: err.message,
+      });
       setPending(false);
     }
   });
 
-  return {data, handleChange, handleSubmit, pending, error, invalid};
+  return {
+    data,
+    handleChange,
+    handleSubmit,
+    pending,
+    status,
+    clearStatus,
+    invalid
+  };
 }
 
 export default useForm;

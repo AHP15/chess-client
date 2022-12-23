@@ -6,19 +6,16 @@ import Input from "../utils/input";
 import Logo from "../utils/Logo";
 
 const SignIn = () => {
-  const url = 'http://localhost:8080/api/v1/auth/signin'
+  const url =`${import.meta.env.VITE_BASE_URL}/api/v1/auth/signin`;
   const {
     data,
     handleChange,
     handleSubmit,
     pending,
-    error,
+    status,
+    clearStatus,
     invalid
   } = useForm({email: '', password: ''}, url);
-
-  if(error) {
-    console.log(error);
-  }
 
   if (pending) {
     return <div>loading...</div>
@@ -70,7 +67,17 @@ const SignIn = () => {
         </a>
       </i>
 
-      {error ? <Alert type="error" message={error} clear={()=>{}} /> : null}
+      {
+        status.type === 'error' 
+        ? <Alert type="error" message={status.message} clear={clearStatus} /> 
+        : null
+      }
+
+      {
+        status.type === 'success' 
+        ? <Alert type="success" message={status.message} clear={clearStatus} /> 
+        : null
+      }
     </div>
   );
 };

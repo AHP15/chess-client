@@ -3,20 +3,19 @@ import FormLayout from '../utils/FormLayout';
 import Input from '../utils/Input';
 import { Link } from 'react-router-dom';
 import useForm from '../../hooks/useForm';
+import Alert from '../utils/Alert';
 
 const SignUp = () => {
+  const url = `${import.meta.env.VITE_BASE_URL}/api/v1/auth/signup`;
   const {
     data,
     handleChange,
     handleSubmit,
     pending,
-    error,
+    status,
+    clearStatus,
     invalid
-  } = useForm({username: '', email: '', password: ''}, '');
-
-  if(error) {
-    alert(error);
-  }
+  } = useForm({username: '', email: '', password: ''}, url);
 
   if (pending) {
     return <div>loading...</div>
@@ -72,6 +71,12 @@ const SignUp = () => {
         />
         <Link to="/" style={{ fontWeight: '600' }}>SignIn</Link>
       </FormLayout>
+
+      {
+        status.type === 'error' 
+        ? <Alert type="error" message={status.message} clear={clearStatus} /> 
+        : null
+      }
     </div>
   );
 };
