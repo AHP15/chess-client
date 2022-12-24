@@ -21,6 +21,7 @@ const SignIn = () => {
     invalid
   } = useForm({email: '', password: ''}, SIGNIN_URL);
   const { user, set } = useStore('user');
+  const { alertMessage, clearAlert } = useStore('alertMessage');
   const navigate = useNavigate();
 
 
@@ -36,6 +37,7 @@ const SignIn = () => {
           userPending: false,
         }
       });
+      localStorage.setItem('chess-user', true);
       return navigate('/dashboard');
     }
   }, [status.type, user.info]);
@@ -106,6 +108,16 @@ const SignIn = () => {
         status.type === 'success' 
         ? <Alert type="success" message={status.message} clear={clearStatus} /> 
         : null
+      }
+
+      {
+        alertMessage.type
+          ? <Alert
+            type={alertMessage.type}
+            message={alertMessage.message}
+            clear={clearAlert}
+          />
+          : null
       }
     </div>
   );

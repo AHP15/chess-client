@@ -1,4 +1,4 @@
-import { BrowserRouter, redirect, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './App.css';
 import Dashboard from './components/routes/Dashboard';
@@ -8,7 +8,6 @@ import Profile from './components/routes/Profile';
 import Game from './components/routes/Game';
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>

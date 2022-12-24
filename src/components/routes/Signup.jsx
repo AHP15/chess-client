@@ -21,6 +21,7 @@ const SignUp = () => {
     invalid
   } = useForm({username: '', email: '', password: ''}, SIGNUP_URL);
   const { user, set } = useStore('user');
+  const { alertMessage, clearAlert } = useStore('alertMessage');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const SignUp = () => {
           userPending: false,
         }
       });
+      localStorage.setItem('chess-user', true);
       return navigate('/dashboard');
     }
   }, [status.type, user.info]);
@@ -104,6 +106,16 @@ const SignUp = () => {
         status.type === 'error' 
         ? <Alert type="error" message={status.message} clear={clearStatus} /> 
         : null
+      }
+
+      {
+        alertMessage.type
+          ? <Alert
+            type={alertMessage.type}
+            message={alertMessage.message}
+            clear={clearAlert}
+          />
+          : null
       }
     </div>
   );

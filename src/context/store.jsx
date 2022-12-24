@@ -5,14 +5,16 @@ import React, {
   useSyncExternalStore
 } from 'react';
 
+import { getUser } from '../api/user';
+
 
 const StoreContext = React.createContext(null);
 
 
 export const useStore = (partial) => {
-  const { get, set, subscribe } = useContext(StoreContext);
+  const { get, set, clearAlert, subscribe } = useContext(StoreContext);
   const partialState = useSyncExternalStore(subscribe, () => get()[partial]);
-  return { [partial]: partialState, set };
+  return { [partial]: partialState, set, clearAlert };
 };
 
 
@@ -21,6 +23,10 @@ const intialState = {
     signedIn: false,
     info: null,
     userPending: false,
+  },
+  alertMessage: {
+    type: null,
+    message: null,
   },
 };
 export const StoreProvider = ({children}) => {
@@ -41,9 +47,53 @@ export const StoreProvider = ({children}) => {
     store.current = { ...store.current, ...data };
     subscribers.current.forEach(callback => callback());
   }, []);
+  const clearAlert = useCallback(() => {
+    set({
+      alertMessage: {
+        type: null,
+        message: null,
+      },
+    });
+  }, []);
+
+  // If the user already signedIn
+  if(localStorage.getItem('chess-user')) {
+    set({
+      user: {
+        info: null,
+        signedIn: true,
+        userPending: true,
+      }
+    });
+
+    getUser().then(response => {
+      if (response.success) {
+        set({
+          user: {
+            info: response.user,
+            signedIn: true,
+            userPending: false,
+          }
+        });
+      } else {
+        set({
+          user: {
+            info: null,
+            signedIn: false,
+            userPending: false,
+          },
+          alertMessage: {
+            type: 'error',
+            message: response.error,
+          }
+        });
+        localStorage.removeItem('chess-user')
+      }
+    });
+  }
 
 
-  const value = { get, set, subscribe };
+  const value = { get, set, clearAlert, subscribe };
 
   return (
     <StoreContext.Provider value={value}>
