@@ -1,4 +1,9 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { SIGNIN_URL } from '../../constants/endPoints';
+import { useStore } from "../../context/store";
+
 import useForm from "../../hooks/useForm";
 import Alert from "../utils/Alert";
 import FormLayout from "../utils/FormLayout";
@@ -6,7 +11,6 @@ import Input from "../utils/input";
 import Logo from "../utils/Logo";
 
 const SignIn = () => {
-  const url =`${import.meta.env.VITE_BASE_URL}/api/v1/auth/signin`;
   const {
     data,
     handleChange,
@@ -15,12 +19,37 @@ const SignIn = () => {
     status,
     clearStatus,
     invalid
-  } = useForm({email: '', password: ''}, url);
+  } = useForm({email: '', password: ''}, SIGNIN_URL);
+  const { user, set } = useStore('user');
+  const navigate = useNavigate();
 
-  if (pending) {
-    return <div>loading...</div>
+
+  useEffect(() => {
+    if(user.info) {
+      return navigate('/dashboard');
+    }
+    if(status.type === 'success') {
+      set({
+        user: {
+          info: status.info,
+          signedIn: true,
+          userPending: false,
+        }
+      });
+      return navigate('/dashboard');
+    }
+  }, [status.type, user.info]);
+
+
+  if (pending || user.userPending) {
+    return (
+      <div className="container">
+        <div className="loading">
+          <div></div>
+        </div>
+      </div>
+    );
   }
-
   return (
     <div className="container">
       <div>

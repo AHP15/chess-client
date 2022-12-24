@@ -7,6 +7,7 @@ const useForm = (fields, endpoint) => {
   const [status, setStatus] = useState({
     type: null,
     message: null,
+    info: null,
   });
   const [invalid, setInvalid] = useState({
     field: null,
@@ -16,6 +17,7 @@ const useForm = (fields, endpoint) => {
   const clearStatus = useCallback(() => setStatus({
     type: null,
     message: null,
+    info: null,
   }), []);
 
   const handleChange = useCallback((e) => {
@@ -67,16 +69,18 @@ const useForm = (fields, endpoint) => {
         setStatus({
           type: 'error',
           message: resData.error,
+          info: null,
         });
       } else {
         setStatus({
           type: 'success',
           message: '',
+          info: resData.user,
         });
         setPending(false);
       }
+      console.log(resData)
 
-      console.log(resData);
     } catch (err) {
       setStatus({
         type: 'error',

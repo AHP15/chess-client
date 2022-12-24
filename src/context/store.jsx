@@ -9,13 +9,20 @@ import React, {
 const StoreContext = React.createContext(null);
 
 
-export const useStore = (selector) => {
-  const {globalState, set, subscribe} = useContext(StoreContext);
-  return {[selector(globalState)]: selector(globalState), set, subscribe};
+export const useStore = (partial) => {
+  const { get, set, subscribe } = useContext(StoreContext);
+  const partialState = useSyncExternalStore(subscribe, () => get()[partial]);
+  return { [partial]: partialState, set };
 };
 
 
-const intialState = {test: 'test', error: 'error'};
+const intialState = {
+  user: {
+    signedIn: false,
+    info: null,
+    userPending: false,
+  },
+};
 export const StoreProvider = ({children}) => {
   const store = useRef(intialState);
 
@@ -32,12 +39,11 @@ export const StoreProvider = ({children}) => {
   const get = useCallback(() => store.current, []);
   const set = useCallback((data) => {
     store.current = { ...store.current, ...data };
-    subscribers.forEach(callback => callback());
+    subscribers.current.forEach(callback => callback());
   }, []);
 
-  const globalState = useSyncExternalStore(subscribe, get);
 
-  const value = { globalState, set, subscribe };
+  const value = { get, set, subscribe };
 
   return (
     <StoreContext.Provider value={value}>
