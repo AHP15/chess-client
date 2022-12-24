@@ -7,7 +7,7 @@ import { useStore } from "../../context/store";
 import useForm from "../../hooks/useForm";
 import Alert from "../utils/Alert";
 import FormLayout from "../utils/FormLayout";
-import Input from "../utils/input";
+import Input from "../utils/Input";
 import Logo from "../utils/Logo";
 
 const SignIn = () => {
