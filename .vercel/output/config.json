@@ -1,0 +1,7 @@
+{
+  "overrides": {
+    "index.html": {
+      "path": "*"
+    }
+  }
+}
