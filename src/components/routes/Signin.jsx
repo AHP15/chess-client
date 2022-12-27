@@ -15,35 +15,22 @@ const SignIn = () => {
     data,
     handleChange,
     handleSubmit,
-    pending,
-    status,
-    clearStatus,
     invalid
   } = useForm({email: '', password: ''}, SIGNIN_URL);
-  const { user, set } = useStore('user');
-  const { alertMessage, clearAlert } = useStore('alertMessage');
-  const navigate = useNavigate();
 
+  const {user} = useStore('user');
+  const {alertMessage, clearAlert} = useStore('alertMessage');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(user.info) {
       return navigate('/dashboard');
     }
-    if(status.type === 'success') {
-      set({
-        user: {
-          info: status.info,
-          signedIn: true,
-          userPending: false,
-        }
-      });
-      localStorage.setItem('chess-user', true);
-      return navigate('/dashboard');
-    }
-  }, [status.type, user.info]);
+  }, [user.info]);
 
 
-  if (pending || user.userPending) {
+  if (user.userPending) {
     return (
       <div className="container">
         <div className="loading">
@@ -93,23 +80,10 @@ const SignIn = () => {
       </FormLayout>
 
       <i style={{ position: 'absolute', bottom: '10px' }}>Developed by 
-        <a style={{ display: 'inline-block', marginLeft: '5px' }} href="https://abdessittir-harkati.vercel.app/" target="_blank" rel="noreferrer">
+        <a style={{ display: 'inline-block', marginLeft: '5px' }} href="https://abdessittirharkati.vercel.app/" target="_blank" rel="noreferrer">
           Abdessittir Harkati
         </a>
       </i>
-
-      {
-        status.type === 'error' 
-        ? <Alert type="error" message={status.message} clear={clearStatus} /> 
-        : null
-      }
-
-      {
-        status.type === 'success' 
-        ? <Alert type="success" message={status.message} clear={clearStatus} /> 
-        : null
-      }
-
       {
         alertMessage.type
           ? <Alert

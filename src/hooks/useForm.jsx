@@ -1,24 +1,14 @@
 import { useCallback, useState } from 'react';
 import isEmail from 'validator/lib/isEmail';
+import { useStore } from '../context/store';
 
 const useForm = (fields, endpoint) => {
   const [data, setData] = useState(fields);
-  const [pending, setPending] = useState(false);
-  const [status, setStatus] = useState({
-    type: null,
-    message: null,
-    info: null,
-  });
   const [invalid, setInvalid] = useState({
     field: null,
     message: null,
   });
-
-  const clearStatus = useCallback(() => setStatus({
-    type: null,
-    message: null,
-    info: null,
-  }), []);
+  const {set} = useStore(); // I will only set the state here
 
   const handleChange = useCallback((e) => {
     const field = e.target.name;
@@ -31,6 +21,19 @@ const useForm = (fields, endpoint) => {
       });
     }
   });
+
+  const setError = useCallback((message) => {
+    set({
+      user: {
+        info: null,
+        userPending: false,
+      },
+      alertMessage: {
+        type: 'error',
+        message: message,
+      },
+    });
+  }, []);
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
@@ -53,7 +56,12 @@ const useForm = (fields, endpoint) => {
     }
 
     // post data
-    setPending(true);
+    set({
+      user: {
+        info: null,
+        userPending: true,
+      }
+    });
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -65,28 +73,20 @@ const useForm = (fields, endpoint) => {
 
       const resData = await res.json();
       if(!resData.success) {
-        setPending(false);
-        setStatus({
-          type: 'error',
-          message: resData.error,
-          info: null,
-        });
+        setError(resData.error);
       } else {
-        setStatus({
-          type: 'success',
-          message: '',
-          info: resData.user,
+        set({
+          user: {
+            info: resData.user,
+            userPending: false,
+          }
         });
-        setPending(false);
+        localStorage.setItem('token', resData.token);
       }
       console.log(resData)
 
     } catch (err) {
-      setStatus({
-        type: 'error',
-        message: err.message,
-      });
-      setPending(false);
+      setError(err.message);
     }
   });
 
@@ -94,9 +94,6 @@ const useForm = (fields, endpoint) => {
     data,
     handleChange,
     handleSubmit,
-    pending,
-    status,
-    clearStatus,
     invalid
   };
 }

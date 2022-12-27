@@ -1,0 +1,34 @@
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 50px;
+  padding-top: 100px;
+  height: 100vh;
+  width: 100vw;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.games {
+  flex: 1;
+  min-width: 250px;
+  border: 1px solid red;
+}
+
+.friends {
+  flex: 1;
+  min-width: 250px;
+  border: 1px solid red;
+}
+
+@media (min-width: 768px) {
+  .games {
+    flex: 0.6;
+  }
+
+  .friends {
+    flex: 0.4;
+  }
+}

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../context/store';
 import styles from '../../styles/routes/Dashboard.module.css';
 import Alert from '../utils/Alert';
+import NavBar from '../utils/NavBar';
 
 const Dashboard = () => {
   const { user } = useStore('user');
@@ -15,7 +16,7 @@ const Dashboard = () => {
     }
   }, [user.info]);
   
-  if (user.userPending) {
+  if (user.userPending || !user.info) {
     return (
       <div className="container">
         <div className="loading">
@@ -24,22 +25,28 @@ const Dashboard = () => {
       </div>
     );
   }
+  const { games, friends } = user.info;
   return (
-    <div>
-      <div className={styles.games}></div>
-      <div className={styles.friends}>
-        {JSON.stringify(user)}
+    <>
+      <NavBar />
+      <div className={styles.dashboard}>
+        <div className={styles.games}>
+          <h2>{games.length > 0 ? 'Your Games' : 'No Games'}</h2>
+        </div>
+        <div className={styles.friends}>
+          <h2>{friends.length > 0 ? 'Your Friends' : 'No Friends'}</h2>
+        </div>
+        {
+          alertMessage.type
+            ? <Alert
+              type={alertMessage.type}
+              message={alertMessage.message}
+              clear={clearAlert}
+            />
+            : null
+        }
       </div>
-      {
-        alertMessage.type
-        ? <Alert
-            type={alertMessage.type}
-            message={alertMessage.message}
-            clear={clearAlert}
-          />
-        : null
-      }
-    </div>
+    </>
   );
 }
 

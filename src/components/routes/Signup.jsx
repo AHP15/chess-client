@@ -15,12 +15,9 @@ const SignUp = () => {
     data,
     handleChange,
     handleSubmit,
-    pending,
-    status,
-    clearStatus,
     invalid
   } = useForm({username: '', email: '', password: ''}, SIGNUP_URL);
-  const { user, set } = useStore('user');
+  const { user } = useStore('user');
   const { alertMessage, clearAlert } = useStore('alertMessage');
   const navigate = useNavigate();
 
@@ -28,21 +25,10 @@ const SignUp = () => {
     if(user.info) {
       return navigate('/dashboard');
     }
-    if(status.type === 'success') {
-      set({
-        user: {
-          info: status.info,
-          signedIn: true,
-          userPending: false,
-        }
-      });
-      localStorage.setItem('chess-user', true);
-      return navigate('/dashboard');
-    }
-  }, [status.type, user.info]);
+  }, [user.info]);
 
 
-  if (pending || user.userPending) {
+  if (user.userPending) {
     return (
       <div className="container">
         <div className="loading">
@@ -101,12 +87,6 @@ const SignUp = () => {
         />
         <Link to="/" style={{ fontWeight: '600' }}>SignIn</Link>
       </FormLayout>
-
-      {
-        status.type === 'error' 
-        ? <Alert type="error" message={status.message} clear={clearStatus} /> 
-        : null
-      }
 
       {
         alertMessage.type
