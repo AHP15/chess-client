@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import isEmail from 'validator/lib/isEmail';
+import isEmail from 'validator/lib/isemail';
 import { useStore } from '../context/store';
 
 const useForm = (fields, endpoint) => {
@@ -55,6 +55,13 @@ const useForm = (fields, endpoint) => {
       }
     }
 
+    if (data.confirm && data.password !== data.confirm) {
+      return setInvalid({
+        field: 'confirm',
+        message: `Password does not match!`,
+      });
+    }
+
     // post data
     set({
       user: {
@@ -74,15 +81,15 @@ const useForm = (fields, endpoint) => {
       const resData = await res.json();
       if(!resData.success) {
         setError(resData.error);
-      } else {
-        set({
-          user: {
-            info: resData.user,
-            userPending: false,
-          }
-        });
-        localStorage.setItem('token', resData.token);
+        return;
       }
+      set({
+        user: {
+          info: resData.user,
+          userPending: false,
+        }
+      });
+      localStorage.setItem('token', resData.token);
       console.log(resData)
 
     } catch (err) {

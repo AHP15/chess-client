@@ -1,0 +1,46 @@
+.friend,
+.removing_friend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid burlywood;
+  padding: 10px;
+}
+
+.removing_friend {
+  filter: blur(2px);
+}
+
+.friend_actions {
+  display: flex;
+  align-items: center;
+}
+
+.friend_actions button {
+  margin-right: 10px;
+}
+
+.online,
+.offline {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.online {
+  background-color: green;
+}
+
+.offline {
+  background-color: lightgray;
+}
+
+.remove {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin-left: 5px;
+  width: 30px;
+}

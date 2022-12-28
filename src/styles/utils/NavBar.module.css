@@ -2,10 +2,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 100px;
-  border: 1px solid red;
+  padding: 10px;
+  border-bottom: 2px solid burlywood;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
+}
+
+.options {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 200px;
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    padding: 10px 100px;
+  }
+
+  .options {
+    width: 300px;
+  }
 }

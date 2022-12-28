@@ -62,7 +62,6 @@ function App() {
       loadUserData(newToken);
     }
   }, [correctToken.callback]);
-  console.log('ok');
 
   return (
     <BrowserRouter>
@@ -77,4 +76,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

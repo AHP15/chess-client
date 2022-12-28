@@ -9,6 +9,7 @@ import FormLayout from '../utils/FormLayout';
 import Input from '../utils/Input';
 import useForm from '../../hooks/useForm';
 import Alert from '../utils/Alert';
+import Pending from '../utils/Pending';
 
 const SignUp = () => {
   const {
@@ -16,7 +17,7 @@ const SignUp = () => {
     handleChange,
     handleSubmit,
     invalid
-  } = useForm({username: '', email: '', password: ''}, SIGNUP_URL);
+  } = useForm({username: '', email: '', password: '', confirm: ''}, SIGNUP_URL);
   const { user } = useStore('user');
   const { alertMessage, clearAlert } = useStore('alertMessage');
   const navigate = useNavigate();
@@ -29,14 +30,9 @@ const SignUp = () => {
 
 
   if (user.userPending) {
-    return (
-      <div className="container">
-        <div className="loading">
-          <div></div>
-        </div>
-      </div>
-    );
+    return <Pending />;
   }
+  const { field, message } = invalid;
   return (
     <div className="container">
       <div>
@@ -45,7 +41,7 @@ const SignUp = () => {
       <FormLayout>
         <Input
           label="username"
-          invalid={invalid.field === 'username' ? invalid.message : null}
+          invalid={field === 'username' ? message : null}
           attrs={{
             type: 'username',
             placeholder: 'Your username',
@@ -56,7 +52,7 @@ const SignUp = () => {
         />
         <Input
           label="email"
-          invalid={invalid.field === 'email' ? invalid.message : null}
+          invalid={field === 'email' ? message : null}
           attrs={{
             type: 'email',
             placeholder: 'Your email',
@@ -67,12 +63,23 @@ const SignUp = () => {
         />
         <Input
           label="password"
-          invalid={invalid.field === 'password' ? invalid.message : null}
+          invalid={field === 'password' ? message : null}
           attrs={{
             type: 'password',
             placeholder: 'Your password',
             name: 'password',
             value: data.password,
+            onChange: handleChange
+          }}
+        />
+        <Input
+          label="confirm password"
+          invalid={field === 'confirm' ? message : null}
+          attrs={{
+            type: 'password',
+            placeholder: 'Confirm password',
+            name: 'confirm',
+            value: data.confirm,
             onChange: handleChange
           }}
         />

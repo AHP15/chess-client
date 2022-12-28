@@ -9,6 +9,7 @@ import Alert from "../utils/Alert";
 import FormLayout from "../utils/FormLayout";
 import Input from "../utils/Input";
 import Logo from "../utils/Logo";
+import Pending from "../utils/Pending";
 
 const SignIn = () => {
   const {
@@ -31,14 +32,9 @@ const SignIn = () => {
 
 
   if (user.userPending) {
-    return (
-      <div className="container">
-        <div className="loading">
-          <div></div>
-        </div>
-      </div>
-    );
+    return <Pending />;
   }
+  const { field, message } = invalid;
   return (
     <div className="container">
       <div>
@@ -47,7 +43,7 @@ const SignIn = () => {
       <FormLayout>
         <Input
           label="email"
-          invalid={invalid.field === 'email' ? invalid.message : null}
+          invalid={field === 'email' ? message : null}
           attrs={{
             type: 'email',
             placeholder: 'Your email',
@@ -58,7 +54,7 @@ const SignIn = () => {
         />
         <Input
           label="password"
-          invalid={invalid.field === 'password' ? invalid.message : null}
+          invalid={field === 'password' ? message : null}
           attrs={{
             type: 'password',
             placeholder: 'Your password',

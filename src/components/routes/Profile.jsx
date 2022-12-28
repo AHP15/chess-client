@@ -1,18 +1,22 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useStore } from "../../context/store";
+import useRestrictedEffect from "../../hooks/useRestrictedEffect";
+import Model from "../utils/Model";
+import NavBar from "../utils/NavBar";
+import Pending from "../utils/Pending";
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if(!user) {
-      navigate('/');
-    }
-  }, [user]);
-
+  useRestrictedEffect();
+  const { user } = useStore('user');
+  const { formModel } = useStore('formModel');
+  
+  if (user.userPending || !user.info) {
+    return <Pending />;
+  }
   return (
-    <div>Profile</div>
+    <>
+      <NavBar />
+      {formModel.show && <Model of={formModel.of} />}
+    </>
   );
 };
 

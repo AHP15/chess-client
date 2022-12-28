@@ -11,16 +11,25 @@
   margin: 0 auto;
 }
 
+.dashboard > div {
+  min-width: 250px;
+  border: 2px solid burlywood;
+  border-radius: 5px;
+}
+
 .games {
   flex: 1;
-  min-width: 250px;
-  border: 1px solid red;
 }
 
 .friends {
   flex: 1;
-  min-width: 250px;
-  border: 1px solid red;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: rgba(222, 184, 135, 0.5);
 }
 
 @media (min-width: 768px) {

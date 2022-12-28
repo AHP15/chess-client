@@ -40,16 +40,37 @@ const NavBar = () => {
     });
   };
 
+  const handleModel = () => {
+    set({
+      formModel: {
+        show: true,
+        of: 'game',
+      }
+    });
+  }
+
   return (
     <nav className={styles.navbar}>
       <Link to="/dashboard">
         <Logo />
       </Link>
 
-      <Link to="/profile">
-        Profile
-      </Link>
-      <button onClick={handleClick}>{loading ? 'Signing Out...' : 'SignOut'}</button>
+
+      <ul className={styles.options}>
+        <li>
+          <Link to="/profile" className="btn">
+          Profile
+          </Link>
+        </li>
+        <li>
+          <button className="btn" onClick={handleModel}>New Game</button>
+        </li>
+        <li>
+          <button className="btn" onClick={handleClick}>
+            {loading ? 'Signing Out...' : 'SignOut'}
+          </button>
+        </li>
+      </ul>
     </nav>
   );
 };

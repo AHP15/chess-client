@@ -33,6 +33,10 @@ const intialState = {
     callback: null,
     callbackPending: true,
   },
+  formModel: {
+    show: false,
+    of: null,
+  }
 };
 export const StoreProvider = ({children}) => {
   const store = useRef(intialState);
