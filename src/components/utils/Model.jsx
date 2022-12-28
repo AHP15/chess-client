@@ -1,4 +1,4 @@
-import isEmail from 'validator/lib/isemail';
+import isEmail from 'validator/lib/isEmail';
 
 import { useStore } from '../../context/store';
 import styles from '../../styles/utils/Model.module.css';

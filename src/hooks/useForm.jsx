@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import isEmail from 'validator/lib/isemail';
+import isEmail from 'validator/lib/isEmail';
 import { useStore } from '../context/store';
 
 const useForm = (fields, endpoint) => {
