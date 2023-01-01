@@ -23,7 +23,14 @@ function App() {
           callbackPending: false,
         },
       });
-    };
+    } else {
+      set({
+        alertMessage: {
+          type: 'error',
+          message: response.error,
+        }
+      });
+    }
   }
 
   const loadUserData = async (token) => {

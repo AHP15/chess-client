@@ -8,7 +8,7 @@ const useForm = (fields, endpoint) => {
     field: null,
     message: null,
   });
-  const {set} = useStore(); // I will only set the state here
+  const {set} = useStore();
 
   const handleChange = useCallback((e) => {
     const field = e.target.name;

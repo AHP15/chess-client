@@ -5,9 +5,10 @@ import styles from '../../styles/utils/Model.module.css';
 import FormLayout from './FormLayout';
 import Input from './Input';
 
-import { addFriend } from '../../api/user';
+import { addFriend, challengeFriend } from '../../api/user';
 import { useState } from 'react';
 import Pending from './Pending';
+import { useNavigate } from 'react-router-dom';
 
 const Model = ({ of }) => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,8 @@ const Model = ({ of }) => {
 
   const { correctToken, set } = useStore('correctToken');
   const { user } = useStore('user');
+
+  const navigate = useNavigate();
 
   const handleClose = () => set({
     formModel: {
@@ -39,23 +42,36 @@ const Model = ({ of }) => {
     }
     setLoading(true);
 
+    if(of === 'game') {
+      set({
+        challenge: {
+          by: user.info.email,
+          accepted: false,
+        },
+      });
+      return navigate('/game');
+    }
     const token = correctToken.callback(localStorage.getItem('token'));
     addFriend(token, email).then((res) => {
       if(res.success) {
-        console.log(res, user.info.friends);
         set({
           alertMessage: {
             type: 'success',
             message: res.message,
           },
-          user: {
-            info: {
-              ...user.info,
-              friends: [...user.info.friends, res.friend],
-            },
-            userPending: false,
-          },
         });
+
+        if (of === 'friend') {
+          set({
+            user: {
+              info: {
+                ...user.info,
+                friends: [...user.info.friends, res.friend],
+              },
+              userPending: false,
+            },
+          });
+        }
       } else {
         set({
           alertMessage: {

@@ -5,6 +5,8 @@ import React, {
   useSyncExternalStore
 } from 'react';
 
+import { fetchData } from '../api/fetch';
+
 const StoreContext = React.createContext(null);
 
 
@@ -36,7 +38,12 @@ const intialState = {
   formModel: {
     show: false,
     of: null,
-  }
+  },
+  socket: null,
+  challenge: {
+    by: null,
+    accepted: false,
+  },
 };
 export const StoreProvider = ({children}) => {
   const store = useRef(intialState);

@@ -1,15 +1,25 @@
 import { useStore } from '../../context/store';
+import useSocket from '../../hooks/useSocket';
 
 import Board from '../game/Board';
+import NavBar from '../utils/NavBar';
+import Pending from '../utils/Pending';
 
 const Game = () => {
-  const { test } = useStore(globalState => globalState.test);
-  console.log(test);
+  const socket = useSocket();
+  const { user } = useStore('user');
+
+  if (user.userPending || !user.info) {
+    return <Pending />;
+  }
   return (
-    <div>
-      Game
-      <Board player="white" />
-    </div>
+    <>
+      <NavBar />
+      <div>
+        Game
+        <Board player="white" />
+      </div>
+    </>
   );
 };
 
