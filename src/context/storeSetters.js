@@ -194,7 +194,7 @@ export const removeFriend = async (id, token, setter) => {
       }
     });
   } else {
-    set({
+    setter({
       alertMessage: {
         type: 'error',
         message: result.error,
