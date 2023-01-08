@@ -7,7 +7,8 @@ import {
   CALLBACK_URL,
   ADD_FRIEND,
   REMOVE_FRIEND,
-  CHALL_FRIEND
+  CHALL_FRIEND,
+  GET_USER_URL
 } from '../constants/endPoints';
 
 // callback state
@@ -139,7 +140,7 @@ export const getUser = async (token, setter) => {
 
 
 // friends
-export const addFriend = async (email, token, setter) => {
+export const addFriend = async (email, token, setter, user) => {
   const result = await fetchData(ADD_FRIEND, {
     method: 'POST',
     body: JSON.stringify({ email }),
@@ -173,7 +174,7 @@ export const addFriend = async (email, token, setter) => {
   }
 };
 
-export const removeFriend = async (id, token, setter) => {
+export const removeFriend = async (id, token, setter, user) => {
   const result = await fetchData(REMOVE_FRIEND, {
     method: 'POST',
     body: JSON.stringify({ id }),

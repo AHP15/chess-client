@@ -5,10 +5,11 @@ import styles from '../../styles/utils/Model.module.css';
 import FormLayout from './FormLayout';
 import Input from './Input';
 
-import { addFriend, challengeFriend } from '../../api/user';
+// import { addFriend, challengeFriend } from '../../api/user';
 import { useState } from 'react';
 import Pending from './Pending';
 import { useNavigate } from 'react-router-dom';
+import { addFriend } from '../../context/storeSetters';
 
 const Model = ({ of }) => {
   const [email, setEmail] = useState('');
@@ -52,37 +53,10 @@ const Model = ({ of }) => {
       return navigate('/game');
     }
     const token = correctToken.callback(localStorage.getItem('token'));
-    addFriend(token, email).then((res) => {
-      if(res.success) {
-        set({
-          alertMessage: {
-            type: 'success',
-            message: res.message,
-          },
-        });
-
-        if (of === 'friend') {
-          set({
-            user: {
-              info: {
-                ...user.info,
-                friends: [...user.info.friends, res.friend],
-              },
-              userPending: false,
-            },
-          });
-        }
-      } else {
-        set({
-          alertMessage: {
-            type: 'error',
-            message: res.error,
-          }
-        })
-      }
+    addFriend(email, token, set, user).then(() => {
       setLoading(false);
       setEmail('');
-    })
+    });
   };
 
   if(loading) {

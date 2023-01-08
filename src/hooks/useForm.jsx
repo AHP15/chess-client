@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import isEmail from 'validator/lib/isEmail';
+
 import { useStore } from '../context/store';
+import { signIn_signUp } from '../context/storeSetters';
 
 const useForm = (fields, endpoint) => {
   const [data, setData] = useState(fields);
@@ -63,6 +65,8 @@ const useForm = (fields, endpoint) => {
     }
 
     // post data
+    signIn_signUp(data, set);
+    /*
     set({
       user: {
         info: null,
@@ -95,6 +99,7 @@ const useForm = (fields, endpoint) => {
     } catch (err) {
       setError(err.message);
     }
+    */
   });
 
   return {

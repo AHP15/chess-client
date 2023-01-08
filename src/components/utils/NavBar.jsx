@@ -5,7 +5,7 @@ import styles from '../../styles/utils/NavBar.module.css';
 
 import Logo from "./Logo";
 import { useStore } from "../../context/store";
-import { signOut } from "../../api/user";
+import { signOut } from "../../context/storeSetters";
 
 
 const NavBar = () => {
@@ -13,31 +13,11 @@ const NavBar = () => {
   const [loading, setLoading] = useState(false);
   const { correctToken, set } = useStore('correctToken');
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setLoading(true);
     const { callback } = correctToken;
     const token = callback(localStorage.getItem('token'));
-
-    signOut(token).then(res => {
-      if (!res.success) {
-        set({
-          alertMessage: {
-            type: 'error',
-            message: res.error,
-          }
-        });
-        return;
-      };
-
-      localStorage.removeItem('token');
-      set({
-        user: {
-          info: null,
-          userPending: false,
-        }
-      });
-      setLoading(false);
-    });
+    signOut(token, set).then(() => setLoading(false));
   };
 
   const handleModel = () => {

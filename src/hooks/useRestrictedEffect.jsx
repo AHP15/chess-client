@@ -7,7 +7,7 @@ const useRestrictedEffect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!user.info) {
+    if(!user.info && !user.userPending) {
       navigate('/');
     }
   }, [user.info]);

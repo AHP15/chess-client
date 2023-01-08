@@ -5,13 +5,14 @@ import { useStore } from "../context/store";
 export default function useSocket() {
   const [socket, setSocket] = useState(null);
   const { correctToken, set } = useStore('correctToken');
-  const {challenge} = useStore('challenge');
+  const { user } = useStore('user');
+  // const { challenge } = useStore('challenge');
 
   useEffect(() => {
     const { callback } = correctToken;
     if (!callback) return;
     const token = callback(localStorage.getItem('token'));
-    const connection = io("http://localhost:8081/challenges", {
+    const connection = io("http://localhost:8081", {
       auth: {
         token,
       }
@@ -23,10 +24,10 @@ export default function useSocket() {
   }, [correctToken]);
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !user.info) return;
     
     socket.on('connect', () => console.log(socket));
-    socket.emit('challenge', {email: challenge.by})
+    socket.emit('user', user.info.email);
     socket.on('connect_error', (err) => {
       set({
         alertMessage: {
@@ -36,7 +37,7 @@ export default function useSocket() {
       });
     });
     socket.on("disconnect", () => console.log("disconnected"));
-  }, [socket]);
+  }, [socket, user.info]);
 
   return socket;
 }

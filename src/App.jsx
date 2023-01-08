@@ -8,65 +8,21 @@ import SignUp from './components/routes/Signup';
 import Profile from './components/routes/Profile';
 import Game from './components/routes/Game';
 import { useStore } from './context/store';
-import { getCallback, getUser } from './api/user';
+import { getCallback, getUser } from './context/storeSetters';
+import useSocket from './hooks/useSocket';
 
 function App() {
+  useSocket();
   const {correctToken, set} = useStore('correctToken');
 
-  const getCorrectToken = async () => {
-    const response = await getCallback();
-    if (response.success) {
-      set({
-        correctToken: {
-          // For more info please visit https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function#examples
-          callback: new Function(`${response.callback}; return toggleToken;`)(),
-          callbackPending: false,
-        },
-      });
-    } else {
-      set({
-        alertMessage: {
-          type: 'error',
-          message: response.error,
-        }
-      });
-    }
-  }
-
-  const loadUserData = async (token) => {
-    const response = await getUser(token);
-    if (response.success) {
-      set({
-        user: {
-          info: response.user,
-          userPending: false,
-        }
-      });
-      return;
-    }
-    set({
-      user: {
-        info: null,
-        userPending: false,
-      },
-      alertMessage: {
-        type: 'error',
-        message: response.error,
-      }
-    });
-    localStorage.removeItem('token');
-  };
-
   useEffect(() => {
-    getCorrectToken();
+    // getCallback(set);
   }, []);
 
   useEffect(() => {
-    const { callback } = correctToken;
     const token = localStorage.getItem('token');
-    if(callback && token) {
-      const newToken = callback(token);
-      loadUserData(newToken);
+    if(token) {
+      getUser(token, set);
     }
   }, [correctToken.callback]);
 
