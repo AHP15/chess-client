@@ -7,24 +7,20 @@ import SignIn from './components/routes/Signin'
 import SignUp from './components/routes/Signup';
 import Profile from './components/routes/Profile';
 import Game from './components/routes/Game';
-import { useStore } from './context/store';
-import { getCallback, getUser } from './context/storeSetters';
+import { getUser } from './context/storeSetters';
 import useSocket from './hooks/useSocket';
+import { useStore } from './context/store';
 
 function App() {
   useSocket();
-  const {correctToken, set} = useStore('correctToken');
-
-  useEffect(() => {
-    // getCallback(set);
-  }, []);
+  const { set } = useStore();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if(token) {
       getUser(token, set);
     }
-  }, [correctToken.callback]);
+  }, []);
 
   return (
     <BrowserRouter>

@@ -11,12 +11,11 @@ import { signOut } from "../../context/storeSetters";
 const NavBar = () => {
 
   const [loading, setLoading] = useState(false);
-  const { correctToken, set } = useStore('correctToken');
+  const { set } = useStore();
 
   const handleClick = () => {
     setLoading(true);
-    const { callback } = correctToken;
-    const token = callback(localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
     signOut(token, set).then(() => setLoading(false));
   };
 
