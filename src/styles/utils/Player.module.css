@@ -1,0 +1,17 @@
+.player {
+  padding: 5px;
+  border: 2px solid burlywood;
+  border-radius: 2px;
+}
+
+.player div {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.player div label {
+  margin-left: 5px;
+  padding: 5px;
+}

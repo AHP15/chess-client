@@ -41,3 +41,12 @@
 .bar::after {
   transform: rotate(-45deg);
 }
+
+.play {
+  width: 100%;
+}
+
+.play > div {
+  display: flex;
+  gap: 15px;
+}

@@ -11,7 +11,7 @@ const Board = ({player}) => {
     pieces: initialPieces,
     possibleSquares: [],
     selectedPiece: null,
-    king: player === "white"? initialPieces.KGE1:initialPieces.KGD8, //white or black king depend on the player prop
+    king: player === "White"? initialPieces.KGE1:initialPieces.KGD8, //white or black king depend on the player prop
     incheck: false, //is king in check
     positionsToFilled: [] // if king si in ckeck which square should be filled
   });

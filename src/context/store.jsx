@@ -31,19 +31,25 @@ const intialState = {
     type: null,
     message: null,
   },
-  correctToken: {
-    callback: null,
-    callbackPending: true,
-  },
   formModel: {
     show: false,
     of: null,
   },
   socket: null,
   challenge: {
-    by: null,
+    by: {
+      email: null,
+      playAs: null,
+    },
+    to: {
+      email: null,
+      playAs: null,
+    },
     accepted: false,
   },
+  gameInfo: {
+    player: null,
+  }
 };
 export const StoreProvider = ({children}) => {
   const store = useRef(intialState);

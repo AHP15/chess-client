@@ -19,6 +19,20 @@ function App() {
     const token = localStorage.getItem('token');
     if(token) {
       getUser(token, set);
+    } else {
+      set({
+        user: {
+          info: null,
+          userPending: false,
+        }
+      });
+    }
+
+    const challenge = JSON.parse(localStorage.getItem('challenge'));
+    if(challenge) {
+      set({
+        challenge,
+      })
     }
   }, []);
 

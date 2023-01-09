@@ -3,31 +3,60 @@ import { io } from "socket.io-client";
 import { useStore } from "../context/store";
 
 export default function useSocket() {
-  const [socket, setSocket] = useState(null);
-  const { correctToken, set } = useStore('correctToken');
-  const { user } = useStore('user');
-  // const { challenge } = useStore('challenge');
+  const { user, set } = useStore('user');
+  const { challenge } = useStore('challenge');
+  const { socket } = useStore('socket');
 
   useEffect(() => {
-    const { callback } = correctToken;
-    if (!callback) return;
-    const token = callback(localStorage.getItem('token'));
+    if (!user.info) return;
+    const token = localStorage.getItem('token');
     const connection = io("http://localhost:8081", {
       auth: {
         token,
       }
     });
-    setSocket(connection);
+    set({
+      socket: connection,
+    });
     return () => {
       connection.close();
     }
-  }, [correctToken]);
+  }, [user.info]);
 
   useEffect(() => {
     if (!socket || !user.info) return;
-    
-    socket.on('connect', () => console.log(socket));
+
     socket.emit('user', user.info.email);
+    socket.on('challenge-recieved', (challengeInfo) => {
+      set({
+        challenge: challengeInfo,
+        alertMessage: {
+          type: 'challenge',
+          message: `${challengeInfo.by.email} is challenging you to a chess game, where you play with ${challengeInfo.to.playAs}`
+        },
+      })
+    });
+    socket.on('challenge-accepted', (challenge) => {
+      const gameInfo = {
+        player: challenge.by.email === user.info.email? challenge.by.playAs:challenge.to.playAs
+      };
+      set({
+        gameInfo,
+        challenge: {
+          by: {
+            email: null,
+            playAs: null,
+          },
+          to: {
+            email: null,
+            playAs: null,
+          },
+          accepted: false,
+        }
+      });
+      localStorage.setItem('gameInfo', JSON.stringify(gameInfo));
+      localStorage.removeItem('challenge');
+    });
     socket.on('connect_error', (err) => {
       set({
         alertMessage: {
@@ -36,8 +65,12 @@ export default function useSocket() {
         }
       });
     });
-    socket.on("disconnect", () => console.log("disconnected"));
   }, [socket, user.info]);
+
+  useEffect(() => {
+    if(!socket || !challenge.by.email) return;
+    socket.emit('challenge-sent', challenge);
+  }, [socket, challenge]);
 
   return socket;
 }

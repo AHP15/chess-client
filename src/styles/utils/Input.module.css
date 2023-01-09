@@ -15,7 +15,7 @@
   transition: 0.3s;
 }
 
-label {
+.label {
   position: absolute;
   top: -12px;
   left: 10px;

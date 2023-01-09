@@ -1,6 +1,7 @@
 .error,
 .waring,
-.success {
+.success,
+.challenge {
   position: fixed;
   left: 15px;
   bottom: 15px;
@@ -27,6 +28,12 @@
   color: green;
   border: 1px solid green;
   background-color: rgba(0, 128, 0, 0.5);
+}
+
+.challenge {
+  color: black;
+  border: 1px solid burlywood;
+  background-color: rgba(222, 184, 135, 0.5);
 }
 
 @keyframes animate {

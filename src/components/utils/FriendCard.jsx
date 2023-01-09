@@ -11,14 +11,13 @@ import { removeFriend } from '../../context/storeSetters';
 const FriendCard = ({ friend }) => {
   const [loading, setLoading] = useState(false);
 
-  const { user } = useStore('user');
-  const { correctToken, set } = useStore('correctToken');
+  const { user, set } = useStore('user');
 
   const navigate = useNavigate();
 
   const handleRemove = () => {
     setLoading(true);
-    const token = correctToken.callback(localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
     removeFriend(friend._id, token, set, user).then(() => setLoading(false));
   };
 

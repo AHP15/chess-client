@@ -1,6 +1,5 @@
 import { useStore } from '../../context/store';
 import useRestrictedEffect from '../../hooks/useRestrictedEffect';
-import useSocket from '../../hooks/useSocket';
 
 import Board from '../game/Board';
 import NavBar from '../utils/NavBar';
@@ -8,18 +7,20 @@ import Pending from '../utils/Pending';
 
 import loading from '../../assets/loading.gif';
 import styles from '../../styles/routes/Game.module.css';
+import { useEffect } from 'react';
 
 const Game = () => {
   useRestrictedEffect();
-  const socket = useSocket();
   const { user } = useStore('user');
   const { challenge } = useStore('challenge');
+  const { gameInfo } = useStore('gameInfo');
+  console.log(challenge.by.email)
 
   if (user.userPending || !user.info) {
     return <Pending />;
   }
 
-  if (challenge.by) {
+  if (challenge.by.email) {
     return (
       <div className={styles.wait}>
         <img src={loading} alt="waiting for challenge to be accepted" />
@@ -33,7 +34,7 @@ const Game = () => {
       <NavBar />
       <div>
         Game
-        <Board player="white" />
+        <Board player={gameInfo.player} />
       </div>
     </>
   );

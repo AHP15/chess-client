@@ -5,19 +5,19 @@ import styles from '../../styles/utils/Model.module.css';
 import FormLayout from './FormLayout';
 import Input from './Input';
 
-// import { addFriend, challengeFriend } from '../../api/user';
 import { useState } from 'react';
 import Pending from './Pending';
 import { useNavigate } from 'react-router-dom';
 import { addFriend } from '../../context/storeSetters';
+import Player from './Player';
 
 const Model = ({ of }) => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [invalid, setInvalid] = useState(null);
 
-  const { correctToken, set } = useStore('correctToken');
-  const { user } = useStore('user');
+  const { user, set } = useStore('user');
+  const { challenge } = useStore('challenge');
 
   const navigate = useNavigate();
 
@@ -43,16 +43,25 @@ const Model = ({ of }) => {
     }
     setLoading(true);
 
-    if(of === 'game') {
-      set({
-        challenge: {
-          by: user.info.email,
-          accepted: false,
+    if (of === 'game') {
+      const challengeInfo = {
+        by: {
+          email: user.info.email,
+          playAs: challenge.by.playAs,
         },
+        to: {
+          email: email,
+          playAs: challenge.to.playAs,
+        },
+        accepted: false,
+      };
+      set({
+        challenge: challengeInfo
       });
+      localStorage.setItem('challenge', JSON.stringify(challengeInfo));
       return navigate('/game');
     }
-    const token = correctToken.callback(localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
     addFriend(email, token, set, user).then(() => {
       setLoading(false);
       setEmail('');
@@ -78,12 +87,13 @@ const Model = ({ of }) => {
           invalid={invalid ? invalid : null}
           attrs={{
             type: 'email',
-            placeholder: 'Your email',
+            placeholder: 'User email',
             name: 'email',
             value: email,
             onChange: handleChange,
           }}
         />
+        {of === 'game' && email && <Player />}
         <Input
           label={null}
           attrs={{
