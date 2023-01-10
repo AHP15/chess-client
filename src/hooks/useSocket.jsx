@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { useStore } from "../context/store";
 
 export default function useSocket() {
   const { user, set } = useStore('user');
-  const { challenge } = useStore('challenge');
   const { socket } = useStore('socket');
 
   useEffect(() => {
@@ -32,9 +31,10 @@ export default function useSocket() {
         challenge: challengeInfo,
         alertMessage: {
           type: 'challenge',
-          message: `${challengeInfo.by.email} is challenging you to a chess game, where you play with ${challengeInfo.to.playAs}`
+          message: `${challengeInfo.by.email} is challenging you to a ${challengeInfo.time} min chess game, where you play with ${challengeInfo.to.playAs}`
         },
-      })
+      });
+
     });
     socket.on('challenge-accepted', (challenge) => {
       const gameInfo = {
@@ -66,11 +66,6 @@ export default function useSocket() {
       });
     });
   }, [socket, user.info]);
-
-  useEffect(() => {
-    if(!socket || !challenge.by.email) return;
-    socket.emit('challenge-sent', challenge);
-  }, [socket, challenge]);
 
   return socket;
 }

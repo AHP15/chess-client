@@ -32,7 +32,7 @@ const isPossibleSquare = (possibleSquares, square) => {
 }
 
 const Square = (props) => {
-  const { square, game, setSelectedPiece, setPossibleSquares, setPieces } = props;
+  const { square, game, setSelectedPiece, setPossibleSquares, setPieces, rotate } = props;
 
   const piece = getPiece(game.pieces, square);
   const possibleSquare = isPossibleSquare(game.possibleSquares, square);
@@ -100,7 +100,11 @@ const Square = (props) => {
   };
 
   return (
-    <div onClick={handleClick} className={styles.square} style={{ backgroundColor: square.background }}>
+    <div
+      onClick={handleClick}
+      className={styles[rotate ? 'rotate_square' : 'square']}
+      style={{ backgroundColor: square.background }}
+    >
       {piece?.info?.name}
       {possibleSquare ? (<div style={{
         backgroundColor: "green",

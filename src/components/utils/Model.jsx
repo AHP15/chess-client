@@ -9,7 +9,8 @@ import { useState } from 'react';
 import Pending from './Pending';
 import { useNavigate } from 'react-router-dom';
 import { addFriend } from '../../context/storeSetters';
-import Player from './Player';
+import GameInfo from './GameInfo';
+import useSocket from '../../hooks/useSocket';
 
 const Model = ({ of }) => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ const Model = ({ of }) => {
 
   const { user, set } = useStore('user');
   const { challenge } = useStore('challenge');
+  const socket = useSocket();
 
   const navigate = useNavigate();
 
@@ -54,10 +56,12 @@ const Model = ({ of }) => {
           playAs: challenge.to.playAs,
         },
         accepted: false,
+        time: challenge.time,
       };
       set({
         challenge: challengeInfo
       });
+      socket.emit('challenge-sent', challengeInfo);
       localStorage.setItem('challenge', JSON.stringify(challengeInfo));
       return navigate('/game');
     }
@@ -93,7 +97,7 @@ const Model = ({ of }) => {
             onChange: handleChange,
           }}
         />
-        {of === 'game' && email && <Player />}
+        {of === 'game' && email && <GameInfo />}
         <Input
           label={null}
           attrs={{

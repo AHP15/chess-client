@@ -60,6 +60,7 @@
   border-radius: 2px;
   text-decoration: none;
   color: black;
+  margin: 5px;
 }
 
 .btn:hover {

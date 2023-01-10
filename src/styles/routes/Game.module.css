@@ -1,3 +1,12 @@
+.game {
+  padding: 10px;
+  padding-top: 100px;
+  height: 100vh;
+  width: 100vw;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
 .wait {
   width: 100vw;
   height: 100vh;

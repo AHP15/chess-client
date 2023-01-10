@@ -45,10 +45,12 @@ const intialState = {
       email: null,
       playAs: null,
     },
+    time: null,
     accepted: false,
   },
   gameInfo: {
     player: null,
+    time: null,
   }
 };
 export const StoreProvider = ({children}) => {

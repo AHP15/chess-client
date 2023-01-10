@@ -4,14 +4,24 @@
   border-radius: 2px;
 }
 
-.player div {
-  margin: 20px;
+.play_as {
   display: flex;
-  justify-content: center;
-  cursor: pointer;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 15px;
 }
 
-.player div label {
-  margin-left: 5px;
-  padding: 5px;
+.play_as div {
+  display: flex;
+  flex-direction: column;
+}
+
+.time {
+  display: flex;
+}
+
+.time > div {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
 }

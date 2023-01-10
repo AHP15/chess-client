@@ -5,7 +5,7 @@ import Square from "./Square";
 
 import styles from '../../styles/game/Board.module.css';
 
-const Board = ({player}) => {
+const Board = ({ player }) => {
   const [game, setGame] = useState({
     player,
     pieces: initialPieces,
@@ -40,7 +40,7 @@ const Board = ({player}) => {
   })), []);
 
   return (
-    <div className={styles.board}>
+    <div className={styles[player === 'Black' ? 'rotate_board' : 'board']}>
       {
         matrix.map(row => row.map(square => (
           <Square
@@ -50,6 +50,7 @@ const Board = ({player}) => {
             setSelectedPiece={handleChangeSelectedPiece}
             setPossibleSquares={handleChangePossibleSquares}
             setPieces={handleChangePieces}
+            rotate={player === 'Black'}
           />
         )))
       }
