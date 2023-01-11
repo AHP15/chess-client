@@ -1,9 +1,12 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import matrix from "../../gameLogic/board";
 import initialPieces from "../../gameLogic/initialPieces";
 import Square from "./Square";
 
 import styles from '../../styles/game/Board.module.css';
+
+import useSocket from '../../hooks/useSocket';
+import { useStore } from "../../context/store";
 
 const Board = ({ player }) => {
   const [game, setGame] = useState({
@@ -11,10 +14,23 @@ const Board = ({ player }) => {
     pieces: initialPieces,
     possibleSquares: [],
     selectedPiece: null,
-    king: player === "White"? initialPieces.KGE1:initialPieces.KGD8, //white or black king depend on the player prop
+    king: player === "white"? initialPieces.KGE1:initialPieces.KGD8, //white or black king depend on the player prop
     incheck: false, //is king in check
     positionsToFilled: [] // if king si in ckeck which square should be filled
   });
+
+  const socket = useSocket();
+  const { gameInfo } = useStore('gameInfo');
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on('move-received', (newPieces) => {
+      setGame(prev => ({
+        ...prev,
+        pieces: newPieces,
+      }));
+    });
+  }, [socket]);
 
   //when the user click on a square that has a piece:
   //set the selectedPiece of the game state
@@ -31,16 +47,22 @@ const Board = ({ player }) => {
   })), []);
 
   //This function will be invoked:
-  //after the user shoused a possible square in Square.js
-  const handleChangePieces = useCallback((newPieces) => setGame(prev => ({
-    ...prev,
-    pieces: newPieces,
-    possibleSquares: [], //reset possibleSquares
-    selectedPiece: null, //reset selectedPiece
-  })), []);
+  //after the user choosed a possible square in Square.js
+  const handleChangePieces = useCallback((newPieces) => {
+    setGame(prev => ({
+      ...prev,
+      pieces: newPieces,
+      possibleSquares: [], //reset possibleSquares
+      selectedPiece: null, //reset selectedPiece
+    }));
+    socket.emit('move-sent', {
+      newPieces,
+      email: gameInfo.player.opponent,
+    });
+  }, []);
 
   return (
-    <div className={styles[player === 'Black' ? 'rotate_board' : 'board']}>
+    <div className={styles[player === 'black' ? 'rotate_board' : 'board']}>
       {
         matrix.map(row => row.map(square => (
           <Square
@@ -50,7 +72,7 @@ const Board = ({ player }) => {
             setSelectedPiece={handleChangeSelectedPiece}
             setPossibleSquares={handleChangePossibleSquares}
             setPieces={handleChangePieces}
-            rotate={player === 'Black'}
+            rotate={player === 'black'}
           />
         )))
       }

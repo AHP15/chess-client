@@ -41,7 +41,7 @@ const Game = () => {
       <NavBar />
       <div className={styles.game}>
         Game
-        <Board player={gameInfo.player} />
+        <Board player={gameInfo.player.color} />
       </div>
     </>
   );

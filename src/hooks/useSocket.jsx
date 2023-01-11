@@ -37,8 +37,17 @@ export default function useSocket() {
 
     });
     socket.on('challenge-accepted', (challenge) => {
+      const challengerColor = challenge.by.playAs;
+      const challengedColor = challenge.to.playAs;
+
+      const challengerEmail = challenge.by.email;
+      const challengedEmail = challenge.to.email;
+
       const gameInfo = {
-        player: challenge.by.email === user.info.email? challenge.by.playAs:challenge.to.playAs
+        player: {
+          color: challengerEmail === user.info.email ? challengerColor : challengedColor,
+          opponent: challengerEmail === user.info.email ? challengedEmail : challengerEmail,
+        }
       };
       set({
         gameInfo,

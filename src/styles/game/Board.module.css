@@ -26,12 +26,12 @@
 
   .board,
   .rotate_board {
-    grid-template-columns: repeat(8, 70px);
+    grid-template-columns: repeat(8, 60px);
   }
 
   .square,
   .rotate_square {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
   }
 }

@@ -11,7 +11,7 @@ const GameInfo = () => {
       },
       to: {
         email: challenge.to.email,
-        playAs: player === 'White' ? 'Black' : 'White',
+        playAs: player === 'white' ? 'black' : 'white',
       },
       accepted: false,
     };
@@ -39,9 +39,9 @@ const GameInfo = () => {
             type="radio"
             id="White"
             name="player"
-            value="White"
+            value="white"
             className="btn"
-            onChange={() => handleChange("White")}
+            onChange={() => handleChange("white")}
           />
           <label htmlFor="White">White</label>
         </div>
@@ -51,8 +51,8 @@ const GameInfo = () => {
             type="radio"
             id="Black"
             name="player"
-            value="Black"
-            onChange={() => handleChange("Black")}
+            value="black"
+            onChange={() => handleChange("black")}
           />
           <label htmlFor="Black">Black</label>
         </div>
@@ -67,7 +67,7 @@ const GameInfo = () => {
           value="3"
           onChange={() => handleTime(3)}
         />
-        <label htmlFor="Black">3 min</label>
+        <label htmlFor="3">3 min</label>
       </div>
 
       <div>
@@ -78,7 +78,7 @@ const GameInfo = () => {
           value="5"
           onChange={() => handleTime(5)}
         />
-        <label htmlFor="Black">5 min</label>
+        <label htmlFor="5">5 min</label>
       </div>
 
       <div>
@@ -89,7 +89,7 @@ const GameInfo = () => {
           value="10"
           onChange={() => handleTime(10)}
         />
-        <label htmlFor="Black">10 min</label>
+        <label htmlFor="10">10 min</label>
       </div>
 
       <div className={styles.time}>
@@ -100,7 +100,7 @@ const GameInfo = () => {
           value="30"
           onChange={() => handleTime(30)}
         />
-        <label htmlFor="Black">30 min</label>
+        <label htmlFor="30">30 min</label>
       </div>
       </div>
     </fieldset>

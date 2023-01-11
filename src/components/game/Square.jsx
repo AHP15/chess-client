@@ -70,7 +70,8 @@ const Square = (props) => {
         calculateNewPieces = SUBMIT_MOVE(game.pieces, game.selectedPiece, square);
         //I don't need to clear the selectedPiece and possibleSquares.
         //the setPieces function will do that look at Board.js
-        return setPieces(calculateNewPieces);
+        setPieces(calculateNewPieces);
+        return;
       }
     }
     // case b:
@@ -93,7 +94,8 @@ const Square = (props) => {
 
       if (!squareContainsPieceOfPlayer && alreadySelectedPiece && possibleSquare) {
         calculateNewPieces = SUBMIT_MOVE(game.pieces, game.selectedPiece, square);
-        return setPieces(calculateNewPieces);
+        setPieces(calculateNewPieces);
+        return;
       }
     }
   
