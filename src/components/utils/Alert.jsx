@@ -10,6 +10,7 @@ const Alert = ({type, message, clear}) => {
   const navigate = useNavigate();
 
   const acceptChallenge = () => {
+    clear();
     socket.emit('accept-challenge', challenge);
     navigate('/game');
   }
