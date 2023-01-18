@@ -48,6 +48,7 @@ const intialState = {
     time: null,
     accepted: false,
   },
+  friendChellenged: null,
   gameInfo: JSON.parse(localStorage.getItem('gameInfo')) ?? {
     player: null,
     time: null,

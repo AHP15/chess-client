@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import styles from '../../styles/utils/FriendCard.module.css';
 
 import remove from '../../assets/remove.png';
@@ -13,7 +11,6 @@ const FriendCard = ({ friend }) => {
 
   const { user, set } = useStore('user');
 
-  const navigate = useNavigate();
 
   const handleRemove = () => {
     setLoading(true);
@@ -23,12 +20,12 @@ const FriendCard = ({ friend }) => {
 
   const handleClick = () => {
     set({
-      challenge: {
-        by: user.info.email,
-        accepted: false,
-      },
+      friendChellenged: friend.email,
+      formModel: {
+        show: true,
+        of: 'game',
+      }
     });
-    navigate('/game');
   };
 
   return (

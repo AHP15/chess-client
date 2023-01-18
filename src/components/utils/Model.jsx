@@ -5,7 +5,7 @@ import styles from '../../styles/utils/Model.module.css';
 import FormLayout from './FormLayout';
 import Input from './Input';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pending from './Pending';
 import { useNavigate } from 'react-router-dom';
 import { addFriend } from '../../context/storeSetters';
@@ -19,6 +19,13 @@ const Model = ({ of }) => {
 
   const { user, set } = useStore('user');
   const { challenge } = useStore('challenge');
+  const { friendChellenged } = useStore('friendChellenged');
+
+  useEffect(() => {
+    if (friendChellenged) {
+      setEmail(friendChellenged);
+    }
+  }, []);
   const socket = useSocket();
 
   const navigate = useNavigate();
@@ -27,7 +34,8 @@ const Model = ({ of }) => {
     formModel: {
       show: false,
       of: null,
-    }
+    },
+    friendChellenged: null
   });
 
   const handleChange = (e) => {
