@@ -15,7 +15,14 @@
 .rotate_square {
   width: 40px;
   height: 40px;
-  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image_piece {
+  width: 50px;
+  object-fit: contain;
 }
 
 .rotate_square {

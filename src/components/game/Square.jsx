@@ -107,7 +107,11 @@ const Square = (props) => {
       className={styles[rotate ? 'rotate_square' : 'square']}
       style={{ backgroundColor: square.background }}
     >
-      {piece?.info?.name}
+      { piece && <img
+        className={styles.image_piece}
+        src={`./${piece.info.image}`}
+        alt={piece?.info?.name} 
+      /> }
       {possibleSquare ? (<div style={{
         backgroundColor: "green",
         width: "20px",
