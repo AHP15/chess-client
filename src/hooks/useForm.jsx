@@ -24,18 +24,6 @@ const useForm = (fields, endpoint) => {
     }
   });
 
-  const setError = useCallback((message) => {
-    set({
-      user: {
-        info: null,
-        userPending: false,
-      },
-      alertMessage: {
-        type: 'error',
-        message: message,
-      },
-    });
-  }, []);
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
@@ -66,40 +54,6 @@ const useForm = (fields, endpoint) => {
 
     // post data
     signIn_signUp(data, set);
-    /*
-    set({
-      user: {
-        info: null,
-        userPending: true,
-      }
-    });
-    try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const resData = await res.json();
-      if(!resData.success) {
-        setError(resData.error);
-        return;
-      }
-      set({
-        user: {
-          info: resData.user,
-          userPending: false,
-        }
-      });
-      localStorage.setItem('token', resData.token);
-      console.log(resData)
-
-    } catch (err) {
-      setError(err.message);
-    }
-    */
   });
 
   return {

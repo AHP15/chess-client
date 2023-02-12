@@ -9,7 +9,7 @@ export default function useSocket() {
   useEffect(() => {
     if (!user.info) return;
     const token = localStorage.getItem('token');
-    const connection = io("http://localhost:8081", {
+    const connection = io(import.meta.env.VITE_SOCKET_URL, {
       auth: {
         token,
       }
